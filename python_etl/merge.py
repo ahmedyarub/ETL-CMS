@@ -28,19 +28,18 @@ files = {
    'visit_cost.csv'              : 'visit_cost_',
    'visit_occurrence.csv'        : 'visit_occurrence_'
 }
-   
-for key, value in files.iteritems():
-    print "Processing: " + key
-    fout=open(os.path.join(BASE_OUTPUT_DIRECTORY, key),"w")
-    # first file:
-    fstring = value + "1.csv"
-    for line in open(os.path.join(BASE_OUTPUT_DIRECTORY, fstring)):
-        fout.write(line)
-    # now the rest:    
-    for num in range(2,20):
-        f = open(os.path.join(BASE_OUTPUT_DIRECTORY, value+str(num)+".csv"))
-        f.next() # skip the header
-        for line in f:
-            fout.write(line)
-        f.close() # not really needed
-    fout.close()
+
+for key, value in files.items():
+    print("Processing: " + key)
+    with open(os.path.join(BASE_OUTPUT_DIRECTORY, key), "w") as fout:
+        # first file:
+        fstring = value + "1.csv"
+        with open(os.path.join(BASE_OUTPUT_DIRECTORY, fstring)) as fin:
+            for line in fin:
+                fout.write(line)
+        # now the rest:
+        for num in range(2,20):
+            with open(os.path.join(BASE_OUTPUT_DIRECTORY, value + str(num) + ".csv")) as f:
+                f.readline() # skip the header
+                for line in f:
+                    fout.write(line)
